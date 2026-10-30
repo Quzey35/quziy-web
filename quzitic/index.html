@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QUZITIC</title>
+<link rel="stylesheet" href="css/s.css?v=29">
+</head>
+<body>
+<div id="stage">
+  <canvas id="gl"></canvas>
+  <div id="tvlayer"></div>
+  <div id="hud" class="hidden">
+    <div id="crosshair" class="hidden"></div>
+    <div id="lens" class="xpwin hidden">
+      <div class="tb">
+        <span class="tbicon"></span><span class="title">Data Lens</span>
+        <span class="btns"><i></i><i></i><i class="x"></i></span>
+      </div>
+      <div class="body">
+        <div id="tabs"></div>
+        <div id="items"></div>
+        <div id="itemInfo"></div>
+        <div class="lrow"><span class="lk">Tool <kbd>T</kbd></span><div id="tools"></div></div>
+        <div class="lrow"><span class="lk">Color <kbd>V</kbd></span><div id="swatches"></div></div>
+        <div class="lrow"><span class="lk">Style <kbd>N</kbd></span><div id="styles"></div></div>
+        <div class="lrow" id="sizeRow"><span class="lk">Size</span><span id="sizeVal"></span></div>
+        <div class="lrow small"><span id="snapVal"></span><span id="physVal"></span><span id="undoVal"></span></div>
+      </div>
+    </div>
+    <div id="status"></div>
+    <div id="gamebox" class="xpwin hidden"></div>
+    <div id="dock">
+      <button id="btnPlay" class="orb on" title="Play mode (Tab)">
+        <svg viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>
+      </button>
+      <button id="btnLens" class="orb" title="Build mode (Tab)">
+        <svg viewBox="0 0 24 24"><path d="M12 6.5C6.5 6.5 3 12 3 12s3.5 5.5 9 5.5 9-5.5 9-5.5-3.5-5.5-9-5.5z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg>
+      </button>
+      <div id="modeLabel">PLAY</div>
+    </div>
+    <div id="buildHint" class="hidden">LMB: use tool · RMB: delete · MMB: copy · R: rotate · Z/X: category · G: grid · P: physics · Ctrl+Z/Y: undo/redo · F: fly</div>
+    <div id="playHint">LMB: push / throw · E: magnet · Q: marble · Tab: build · H: help</div>
+    <div id="tray">
+      <span id="wifiIcon" title="Wireless network">
+        <svg viewBox="0 0 24 24"><path d="M2 9a15 15 0 0 1 20 0M5 12.5a10.5 10.5 0 0 1 14 0M8.2 16a6 6 0 0 1 7.6 0" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="19.3" r="1.6" fill="currentColor"/></svg>
+      </span>
+      <span id="netText">Offline</span>
+      <span class="sep"></span>
+      <span id="clock">00:00</span>
+    </div>
+    <div id="tags"></div>
+    <div id="players" class="xpwin hidden"><div class="tb"><span class="tbicon"></span><span class="title">Players</span></div><div class="body plist"></div></div>
+    <div id="prompt" class="hidden"><kbd>F</kbd> <span></span></div>
+    <div id="powerbar" class="hidden"><span class="pl"></span><div class="pbar"><i></i></div><b></b></div>
+    <div id="tvbar" class="xpwin hidden">
+      <div class="tb"><span class="tbicon"></span><span class="title">TV — Web Browser</span><span class="btns"><i></i><i></i><i class="x" id="tvClose"></i></span></div>
+      <div class="body">
+        <div class="tvrow"><span>Address</span><input id="tvUrl" type="text" placeholder="Paste a YouTube link or a website…" spellcheck="false"><button class="xpbtn" id="tvGo">Go</button><button class="xpbtn" id="tvPlay" title="Play / pause for everyone">⏯</button><button class="xpbtn" id="tvExit">Exit (Esc)</button></div>
+        <div class="tvnote">YouTube links play in sync for everyone. Some sites (Netflix, Google…) refuse to be shown inside other pages.</div>
+      </div>
+    </div>
+    <div id="cardlabels"></div>
+    <div id="cardwin" class="xpwin hidden"></div>
+    <div id="toasts"></div>
+    <div id="hint" class="hidden">Click to play</div>
+  </div>
+  <div id="title">
+    <div class="logo">
+      <div class="person"><i class="head"></i><i class="body"></i></div>
+      <h1>QUZITIC</h1>
+      <p>a sandbox inside an offline laptop</p>
+    </div>
+    <div class="menu">
+      <button class="xpbtn big" id="btnStart">Play Solo</button>
+      <button class="xpbtn big" id="btnMulti">Multiplayer</button>
+      <button class="xpbtn" id="btnHelpT">Controls</button>
+      <button class="xpbtn" id="btnFull">Fullscreen</button>
+    </div>
+    <div class="foot">
+      <svg viewBox="0 0 24 24"><path d="M12 3 2 20h20z" fill="#ffd34d" stroke="#b07a00" stroke-width="1.2"/><path d="M12 9v5" stroke="#5a3d00" stroke-width="2"/><circle cx="12" cy="16.8" r="1.1" fill="#5a3d00"/></svg>
+      Build anything · up to 4 players online
+    </div>
+  </div>
+  <div id="pause" class="xpwin dialog hidden">
+    <div class="tb"><span class="tbicon"></span><span class="title">Paused</span><span class="btns"><i></i><i></i><i class="x" data-close="pause"></i></span></div>
+    <div class="body pad">
+      <div class="row btnrow">
+        <button class="xpbtn big" id="btnResume">Resume</button>
+      </div>
+      <fieldset>
+        <legend>Sound</legend>
+        <label class="chk"><input type="checkbox" id="optMusic" checked> Music on (M)</label>
+        <label>Music <input type="range" id="volMusic" min="0" max="1" step="0.05" value="0.6"></label>
+        <label>Effects <input type="range" id="volSfx" min="0" max="1" step="0.05" value="0.8"></label>
+      </fieldset>
+      <fieldset>
+        <legend>Display</legend>
+       <label class="chk"><input type="checkbox" id="optBloom" checked> Bloom glow</label>
+        <label class="chk"><input type="checkbox" id="optLock" checked> Lock mouse (FPS look) — off: cursor visible, drag to look</label>
+        <label>Mouse sensitivity <input type="range" id="optSens" min="0.4" max="2" step="0.1" value="1"></label>
+      </fieldset>
+      <fieldset>
+        <legend>World</legend>
+        <div class="row">
+          <button class="xpbtn" id="btnSave">Save</button>
+          <button class="xpbtn" id="btnLoad">Load</button>
+          <button class="xpbtn" id="btnReset">Reset</button>
+          <button class="xpbtn" id="btnClear">Empty world</button>
+        </div>
+      </fieldset>
+      <div class="row btnrow">
+        <button class="xpbtn" id="btnHelpP">Controls</button>
+        <button class="xpbtn" id="btnLeave">Leave session</button>
+        <button class="xpbtn" id="btnMenu">Main menu</button>
+      </div>
+    </div>
+  </div>
+  <div id="help" class="xpwin dialog hidden">
+    <div class="tb"><span class="tbicon"></span><span class="title">Controls — Help</span><span class="btns"><i></i><i></i><i class="x" data-close="help"></i></span></div>
+    <div class="body pad">
+      <table>
+        <tr><th colspan="2">Movement</th></tr>
+        <tr><td><kbd>W A S D</kbd></td><td>Walk · <kbd>Shift</kbd> run · <kbd>Space</kbd> jump</td></tr>
+        <tr><td><kbd>Mouse</kbd></td><td>Look around · wheel to zoom · in Build mode the cursor is free: right-drag turns the camera</td></tr>
+        <tr><th colspan="2">Abilities</th></tr>
+        <tr><td><kbd>Q</kbd></td><td>Turn into a marble / back</td></tr>
+        <tr><td><kbd>E</kbd> (hold)</td><td>Magnet: grab metal objects, crash dummies — and other players! · as a marble, swing from Swing Magnets</td></tr>
+        <tr><td><kbd>G</kbd></td><td>Switch weapon: Hands · ⚡ Blaster · 🚀 Rocket Launcher · 💣 Grenades (Left click fires)</td></tr>
+        <tr><td><kbd>M</kbd></td><td>Music on / off</td></tr>
+        <tr><td><kbd>3</kbd> <kbd>1</kbd> <kbd>2</kbd></td><td>??? (try it)</td></tr>
+        <tr><td><kbd>Left click</kbd></td><td>Push objects · light TNT / Nuke fuses · while holding with E: each click adds throw power (1x → 4x), release E to throw</td></tr><tr><td><kbd>F</kbd></td><td>Interact: sit · watch TV · billiards · cards · arcade cabinets</td></tr>
+        <tr><th colspan="2">Build mode (<kbd>Tab</kbd>)</th></tr>
+        <tr><td><kbd>Z</kbd> / <kbd>X</kbd></td><td>Previous / next category</td></tr>
+        <tr><td><kbd>1</kbd>…<kbd>0</kbd> / wheel</td><td>Pick item</td></tr>
+        <tr><td><kbd>T</kbd></td><td>Tool: Place · Paint · Move</td></tr>
+        <tr><td>Left / Right / Middle</td><td>Use tool / delete / copy item</td></tr>
+        <tr><td><kbd>R</kbd></td><td>Rotate 90°</td></tr>
+        <tr><td><kbd>V</kbd> / <kbd>N</kbd></td><td>Paint color / material style</td></tr>
+        <tr><td><kbd>[ ]</kbd> <kbd>- =</kbd> <kbd>, .</kbd></td><td>Block width / height / depth</td></tr>
+        <tr><td><kbd>G</kbd></td><td>Grid snap (1 · 0.5 · 0.25 · off)</td></tr>
+        <tr><td><kbd>P</kbd></td><td>Pause / resume physics</td></tr>
+        <tr><td><kbd>Ctrl+Z</kbd> / <kbd>Ctrl+Y</kbd></td><td>Undo / redo</td></tr>
+        <tr><td><kbd>F</kbd></td><td>Fly (Space up, C down)</td></tr>
+        <tr><th colspan="2">What to do</th></tr>
+        <tr><td colspan="2">It's a sandbox: knock over dominoes, blow up Virus blocks, roll as a marble, and build anything you want — alone or with up to 3 friends (Multiplayer).</td></tr><tr><th colspan="2">Party games around the map</th></tr><tr><td colspan="2">Ride the <b>conveyor ring</b> or use the purple <b>teleporters</b> to get around. ⚽ Soccer &amp; 👑 King of the Hill (north) · 🎱 Billiards, 🕹 Arcade, 🪙 Coin Rush, ■ Tile Fall (east) · 🃏 Casino, 🦆 Duck Hunt, 🏀 Basketball, 🎳 Bowling (south) · 🎨 Color Match, 🏁 Obstacle Race, 📺 Cinema (west). Middle: ball pit, TNT, a nuke, crash dummies. Step on a red button to start/reset a game.</td></tr>
+      </table>
+      <div class="row btnrow"><button class="xpbtn" data-close="help">OK</button></div>
+    </div>
+  </div>
+  <div id="mpWin" class="xpwin dialog hidden">
+    <div class="tb"><span class="tbicon"></span><span class="title">Multiplayer — Network Connection</span><span class="btns"><i></i><i></i><i class="x" data-close="mpWin"></i></span></div>
+    <div class="body pad">
+      <label>Your name <input type="text" id="mpName" maxlength="16" placeholder="Player"></label>
+      <fieldset>
+        <legend>Host a game</legend>
+        <p class="small">Your computer becomes the server. You get a room code to send to your friends. Keep this tab open while you play.</p>
+        <div class="row btnrow"><button class="xpbtn big" id="btnHost">Host game</button></div>
+      </fieldset>
+      <fieldset>
+        <legend>Join a friend</legend>
+        <label>Room code <input type="text" id="mpCode" maxlength="8" placeholder="ABCDE" autocomplete="off" spellcheck="false"></label>
+        <div class="row btnrow"><button class="xpbtn big" id="btnJoin">Join</button></div>
+      </fieldset>
+      <p id="mpStatus" class="status"></p>
+      <p class="small">Max 4 players · colors: <span class="cdot" style="background:#9a9cab"></span>host <span class="cdot" style="background:#3fc463"></span><span class="cdot" style="background:#4a7cf0"></span><span class="cdot" style="background:#e6b927"></span><span class="cdot" style="background:#e5484d"></span></p>
+      <details class="lan">
+        <summary>Same Wi-Fi server (advanced)</summary>
+        <label>Server address <input type="text" id="mpAddr" placeholder="localhost:8080"></label>
+        <div class="row btnrow"><button class="xpbtn" id="btnConnect">Connect</button></div>
+        <p class="small">The host runs <b>start-server.bat</b> (needs Node.js) and friends on the same Wi-Fi open the address it prints, e.g. <b>http://192.168.1.5:8080</b>.</p>
+      </details>
+    </div>
+  </div>
+  <div id="error" class="xpwin dialog hidden">
+    <div class="tb"><span class="tbicon"></span><span class="title">Error</span><span class="btns"><i></i><i></i><i class="x"></i></span></div>
+    <div class="body pad" id="errorText"></div>
+  </div>
+</div>
+<script src="js/peer.min.js?v=1.5.4"></script>
+<script src="js/q.min.js?v=29"></script>
+</body>
+</html>

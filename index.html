@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Quziy</title>
+<meta name="description" content="Quziy: tarayıcıda oynanan oyunlar.">
+<meta property="og:title" content="Quziy">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%235b4bd6'/%3E%3Ctext x='16' y='23' font-size='20' font-family='Arial' font-weight='bold' fill='white' text-anchor='middle'%3EQ%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@800&display=swap">
+<style>
+  /* Sade ana ekran: üstte "Quziy", altında iki büyük kart (dar ekranda alt alta) */
+  :root {
+    --bg: #f3f1fb;
+    --fg: #1f1b3a;
+    --card: #ffffff;
+    --line: #dcd8f0;
+    --quzitic: #5b4bd6;
+    --ohbe: #ff6a2b;
+    --ohbe-edge: #c9470f;
+    --ohbe-soft: #ffe6d8;
+    --display: "Baloo 2", "Arial Rounded MT Bold", system-ui, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #13111f; --fg: #f1effa; --card: #1d1a2e; --line: #2e2a47;
+      --quzitic: #9a8cff; --ohbe: #ff7a3d; --ohbe-edge: #b23f0c; --ohbe-soft: #2e1d16;
+      color-scheme: dark;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--display);
+    padding-block: max(40px, env(safe-area-inset-top, 0px)) 40px;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+  main { max-width: 880px; margin: 0 auto; display: flex; flex-direction: column; gap: 32px; }
+  h1 { margin: 0; font-weight: 800; font-size: clamp(3rem, 10vw, 4.5rem); line-height: .9; }
+  h1 span { color: var(--quzitic); }
+
+  .oyunlar { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+  .oyun {
+    position: relative;
+    display: block;
+    aspect-ratio: 4 / 3;
+    max-width: 100%;
+    border-radius: 22px;
+    overflow: hidden;
+    border: 3px solid var(--line);
+    background: var(--card);
+    text-decoration: none;
+    transition: transform .15s, border-color .15s;
+  }
+  .oyun:hover, .oyun:focus-visible { transform: translateY(-4px); outline: none; }
+  .oyun.quzitic:hover, .oyun.quzitic:focus-visible { border-color: var(--quzitic); }
+  .oyun.ohbe:hover, .oyun.ohbe:focus-visible { border-color: var(--ohbe); }
+
+  /* Quzitic: oyundan ekran görüntüsü + köşede "Sandbox" */
+  .quzitic img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .quzitic .etiket {
+    position: absolute;
+    left: 14px; bottom: 14px;
+    padding: 4px 16px 2px;
+    border-radius: 999px;
+    background: var(--quzitic);
+    color: #fff;
+    font-size: 1.4rem;
+    font-weight: 800;
+  }
+
+  /* Oh Be: sadece buton */
+  .ohbe { display: grid; place-items: center; background: var(--ohbe-soft); }
+  .ohbe .tus {
+    width: 46%; aspect-ratio: 1; max-width: 100%;
+    border-radius: 50%;
+    background: var(--ohbe);
+    color: #fff;
+    display: grid; place-items: center;
+    font-size: clamp(1.4rem, 4vw, 2rem); font-weight: 800;
+    box-shadow: 0 9px 0 var(--ohbe-edge);
+    transition: transform .08s, box-shadow .08s;
+  }
+  .ohbe:active .tus { transform: translateY(7px); box-shadow: 0 2px 0 var(--ohbe-edge); }
+
+  @media (prefers-reduced-motion: reduce) { .oyun, .tus { transition: none; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>Quzi<span>y</span></h1>
+  <section class="oyunlar" aria-label="Oyunlar">
+    <a class="oyun quzitic" href="quzitic/" aria-label="Quzitic: sandbox oyunu">
+      <img src="kapak-quzitic.jpg" alt="" width="596" height="446">
+      <span class="etiket">Sandbox</span>
+    </a>
+    <a class="oyun ohbe" href="ohbe/" aria-label="Oh Be butonu">
+      <span class="tus">OH BE</span>
+    </a>
+  </section>
+</main>
+</body>
+</html>

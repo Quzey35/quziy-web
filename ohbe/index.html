@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Oh Be</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&display=swap">
+<style>
+  /* Tek ekran: ortada büyük basılabilir buton, altında ton göstergesi ve sayaç */
+  :root {
+    --bg: #fff3e4;
+    --fg: #3b2414;
+    --muted: #8a6a52;
+    --btn: #ff6a2b;
+    --btn-edge: #c9470f;
+    --kalin: #5b2ca8;
+    --display: "Baloo 2", "Arial Rounded MT Bold", system-ui, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #1c140e; --fg: #fbe9d8; --muted: #b8977c;
+      --btn: #ff7a3d; --btn-edge: #b23f0c; --kalin: #a77bf0;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #1c140e; --fg: #fbe9d8; --muted: #b8977c;
+    --btn: #ff7a3d; --btn-edge: #b23f0c; --kalin: #a77bf0;
+    color-scheme: dark;
+  }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--display);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+    padding-block: 24px;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    box-sizing: border-box;
+    overflow: hidden;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+  }
+  h1 { margin: 0; font-size: 2.6rem; font-weight: 800; line-height: 1; }
+  #ohbe {
+    width: min(240px, 70vw);
+    aspect-ratio: 1;
+    max-width: 100%;
+    border: none;
+    border-radius: 50%;
+    background: var(--btn);
+    color: #fff;
+    font-family: var(--display);
+    font-size: 2.8rem;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 10px 0 var(--btn-edge);
+    transition: transform .05s, box-shadow .05s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  #ohbe:active, #ohbe.bas {
+    transform: translateY(8px);
+    box-shadow: 0 2px 0 var(--btn-edge);
+  }
+  #ohbe:focus-visible { outline: 4px solid var(--fg); outline-offset: 8px; }
+  .bilgi { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; justify-content: center; }
+  #ton, #sayac { font-size: 1.15rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+  #ton b { color: var(--fg); }
+  #sifirla {
+    font-family: var(--display);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--fg);
+    background: transparent;
+    border: 2px solid var(--muted);
+    border-radius: 999px;
+    padding: 4px 14px;
+    cursor: pointer;
+  }
+  #sifirla:focus-visible { outline: 3px solid var(--fg); outline-offset: 3px; }
+  .balon {
+    position: fixed;
+    font-weight: 800;
+    font-size: 1.6rem;
+    color: var(--btn);
+    pointer-events: none;
+    white-space: nowrap;
+    animation: uc 1s ease-out forwards;
+  }
+  .balon.kalin { color: var(--kalin); font-size: 2.4rem; }
+  @keyframes uc {
+    from { opacity: 1; transform: translate(-50%, 0) scale(1); }
+    to   { opacity: 0; transform: translate(-50%, -130px) scale(1.4); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .balon { animation-duration: .4s; }
+  }
+  .geri {
+    position: fixed;
+    top: calc(12px + env(safe-area-inset-top, 0px));
+    left: max(16px, env(safe-area-inset-left, 0px));
+    color: var(--muted);
+    font-weight: 600;
+    font-size: 1.05rem;
+    text-decoration: none;
+  }
+  .geri:hover, .geri:focus-visible { color: var(--fg); }
+</style>
+
+<a class="geri" href="../">← Quziy</a>
+<h1>Oh Be</h1>
+<button id="ohbe" type="button">OH BE</button>
+<div class="bilgi">
+  <span id="ton">Ton <b>×1.00</b></span>
+  <span id="sayac">0 kere oh be</span>
+  <button id="sifirla" type="button">Normale dön</button>
+</div>
+
+<script>
+  const btn = document.getElementById('ohbe');
+  const tonYazi = document.querySelector('#ton b');
+  const sayac = document.getElementById('sayac');
+
+  const INCELME = 1.06;      // her basışta ses bu kadar incelir
+  const EN_INCE = 2.5;
+  const KALIN_SANS = 0.1;    // %10 ihtimalle kalın oh be
+
+  let ton = 1;
+  let adet = 0;
+
+  // Web Audio: hızlı spam için sesler üst üste çalabilsin
+  let ctx = null, tampon = null;
+  async function hazirla() {
+    if (ctx) return;
+    ctx = new (window.AudioContext || window.webkitAudioContext)();
+    try {
+      const veri = await (await fetch('ohbe.mp3')).arrayBuffer();
+      tampon = await ctx.decodeAudioData(veri);
+    } catch (e) {
+      tampon = null; // dosyadan açılınca fetch çalışmaz, yedek kullanılır
+    }
+  }
+
+  function cal(hiz) {
+    if (tampon) {
+      const kaynak = ctx.createBufferSource();
+      kaynak.buffer = tampon;
+      kaynak.playbackRate.value = hiz;
+      kaynak.connect(ctx.destination);
+      kaynak.start();
+    } else {
+      const a = new Audio('ohbe.mp3');
+      a.preservesPitch = false;
+      a.mozPreservesPitch = false;
+      a.webkitPreservesPitch = false;
+      a.playbackRate = hiz;
+      a.play().catch(() => {});
+    }
+  }
+
+  function balon(yazi, kalin) {
+    const r = btn.getBoundingClientRect();
+    const b = document.createElement('div');
+    b.className = 'balon' + (kalin ? ' kalin' : '');
+    b.textContent = yazi;
+    b.style.left = (r.left + r.width / 2 + (Math.random() - 0.5) * r.width) + 'px';
+    b.style.top = (r.top + Math.random() * 40) + 'px';
+    document.body.appendChild(b);
+    setTimeout(() => b.remove(), 1000);
+  }
+
+  async function ohBe() {
+    await hazirla();
+    if (ctx.state === 'suspended') ctx.resume();
+
+    adet++;
+    sayac.textContent = adet + ' kere oh be';
+
+    if (Math.random() < KALIN_SANS) {
+      const kalinTon = 0.45 + Math.random() * 0.25;
+      cal(kalinTon);
+      balon('OOOH BEEE', true);
+      tonYazi.textContent = '×' + kalinTon.toFixed(2);
+      return;
+    }
+
+    cal(ton);
+    balon('oh be!', false);
+    tonYazi.textContent = '×' + ton.toFixed(2);
+    // Tepeye yaklaştıkça incelme ihtimali düşer, yoksa biraz kalınlaşır:
+    // ses çoğunlukla 1.5-2 civarında gezinir, 2.5 nadiren gelir
+    const yukariSans = 0.85 - 0.6 * (ton - 1) / (EN_INCE - 1);
+    if (Math.random() < yukariSans) ton = Math.min(ton * INCELME, EN_INCE);
+    else ton = Math.max(ton / INCELME, 1);
+  }
+
+  // pointerdown: tıklamadan daha hızlı tepki, spam için
+  btn.addEventListener('pointerdown', e => {
+    e.preventDefault();
+    btn.classList.add('bas');
+    ohBe();
+  });
+  ['pointerup', 'pointerleave', 'pointercancel'].forEach(t =>
+    btn.addEventListener(t, () => btn.classList.remove('bas')));
+
+  // Klavyeyle de spam: boşluk veya Enter basılı tutulabilir
+  btn.addEventListener('keydown', e => {
+    if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); ohBe(); }
+  });
+
+  document.getElementById('sifirla').addEventListener('click', () => {
+    ton = 1;
+    tonYazi.textContent = '×1.00';
+  });
+</script>
+
+</html>
