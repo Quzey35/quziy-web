@@ -8,7 +8,7 @@
 <title>QUZITIC</title>
 <meta name="google-adsense-account" content="ca-pub-1146260713123846">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1146260713123846" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="css/s.css?v=40">
+<link rel="stylesheet" href="css/s.css?v=41">
 </head>
 <body>
 <div id="stage">
@@ -35,16 +35,16 @@
     <div id="status"></div>
     <div id="gamebox" class="xpwin hidden"></div>
     <div id="dock">
-      <button id="btnPlay" class="orb on" title="Play mode (Tab)">
+      <button id="btnPlay" class="orb on" title="Play mode">
         <svg viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>
       </button>
-      <button id="btnLens" class="orb" title="Build mode (Tab)">
+      <button id="btnLens" class="orb" title="Build mode">
         <svg viewBox="0 0 24 24"><path d="M12 6.5C6.5 6.5 3 12 3 12s3.5 5.5 9 5.5 9-5.5 9-5.5-3.5-5.5-9-5.5z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg>
       </button>
       <div id="modeLabel">PLAY</div>
     </div>
     <div id="buildHint" class="hidden">LMB: use tool · RMB: delete · MMB: copy · R: rotate · Z/X: category · G: grid · P: physics · Ctrl+Z/Y: undo/redo · F: fly</div>
-    <div id="playHint">LMB: push / throw · E: magnet · Q: marble · Tab: build · H: help</div>
+    <div id="playHint">LMB: push / throw · E: magnet · Q: marble · Tab: free mouse · H: help</div>
     <div id="tray">
       <span id="wifiIcon" title="Wireless network">
         <svg viewBox="0 0 24 24"><path d="M2 9a15 15 0 0 1 20 0M5 12.5a10.5 10.5 0 0 1 14 0M8.2 16a6 6 0 0 1 7.6 0" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="19.3" r="1.6" fill="currentColor"/></svg>
@@ -149,7 +149,7 @@
         </dl>
         <h4>Game</h4>
         <dl class="keys">
-          <dt><kbd>Tab</kbd></dt><dd>Build mode on/off · closes an open window</dd>
+          <dt><kbd>Tab</kbd></dt><dd>Free the mouse (use the taskbar and windows) · press again or click the game to look around · closes an open window</dd>
           <dt><kbd>H</kbd></dt><dd>This help</dd>
           <dt><kbd>M</kbd></dt><dd>Music on/off</dd>
           <dt><kbd>Esc</kbd></dt><dd>Pause menu (save, load, settings)</dd>
@@ -157,7 +157,7 @@
         </dl>
       </div>
       <div class="hpage hidden" data-h="build">
-        <h4>Build mode — <kbd>Tab</kbd> or the Build button on the taskbar</h4>
+        <h4>Build mode — the Build button on the taskbar (<kbd>Tab</kbd> frees the mouse, then move it to the bottom edge)</h4>
         <dl class="keys">
           <dt><kbd>Z</kbd> / <kbd>X</kbd></dt><dd>Previous / next category</dd>
           <dt><kbd>1</kbd>…<kbd>0</kbd> · wheel</dt><dd>Pick an item</dd>
@@ -261,6 +261,6 @@
   </div>
 </div>
 <script src="js/peer.min.js"></script>
-<script src="js/q.min.js?v=40"></script>
+<script src="js/q.min.js?v=41"></script>
 </body>
 </html>
