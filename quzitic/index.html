@@ -8,7 +8,7 @@
 <title>QUZITIC</title>
 <meta name="google-adsense-account" content="ca-pub-1146260713123846">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1146260713123846" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="css/s.css?v=42">
+<link rel="stylesheet" href="css/s.css?v=43">
 </head>
 <body>
 <div id="stage">
@@ -123,6 +123,10 @@
         <button class="xpbtn" id="btnLeave">Leave session</button>
         <button class="xpbtn" id="btnMenu">Main menu</button>
       </div>
+      <div class="pauseroom hidden" id="pauseRoom">
+        <span>Room code</span><b id="pauseCode"></b>
+        <button class="xpbtn" id="btnCopyRoom">Copy invite link</button>
+      </div>
     </div>
   </div>
   <div id="help" class="xpwin dialog hidden">
@@ -149,7 +153,7 @@
         </dl>
         <h4>Game</h4>
         <dl class="keys">
-          <dt><kbd>Tab</kbd></dt><dd>Free the mouse (use the taskbar and windows) · press again or click the game to look around · closes an open window</dd>
+          <dt><kbd>Tab</kbd></dt><dd>Lock / free the mouse: press once to free it (taskbar, windows), again to lock it for looking around · also closes an open window</dd>
           <dt><kbd>H</kbd></dt><dd>This help</dd>
           <dt><kbd>M</kbd></dt><dd>Music on/off</dd>
           <dt><kbd>Esc</kbd></dt><dd>Pause menu (save, load, settings)</dd>
@@ -182,33 +186,37 @@
       <div class="hpage hidden" data-h="vehicles">
         <h4>Qraft 3D — on the taskbar (move the mouse to the bottom edge)</h4>
         <dl class="keys">
-          <dt>Click a face</dt><dd>Attach the selected part there · wheels, jets and propellers turn to face that side</dd>
-          <dt>Right click</dt><dd>Remove a part</dd>
-          <dt>Drag · wheel</dt><dd>Turn the view · zoom</dd>
+          <dt>Left click</dt><dd>Attach the selected part to that face · hold and drag to paint a whole row or floor</dd>
+          <dt>Right click</dt><dd>Remove a part · right-drag turns the view · wheel zooms</dd>
+          <dt>Smart parts</dt><dd>Plates lie flat against the face you click (roofs, floors, doors) · slopes face outward by themselves (R to turn them by hand) · touching blocks merge into one smooth body</dd>
           <dt><kbd>R</kbd> · <kbd>Ctrl</kbd>+<kbd>Z</kbd></dt><dd>Turn slopes, seats and fins · undo</dd>
-          <dt>⚙ Logic tab</dt><dd>Ride inside or Remote control · IF → THEN rules (keys 1–4, speed, height, player near, hits something, timer)</dd>
+          <dt>⚙ Logic tab</dt><dd>Ride inside or Remote control · IF → THEN rules (keys 1–4, speed, height, player near, hits something, timer) · 🧲 Magnet: planes and drones hang a player or block underneath, cars hold it in front</dd>
+          <dt>Toolbar</dt><dd>Undo · turn part · mirror · fit view · clear — the status bar shows parts, weight and size</dd>
           <dt>Drag the card</dt><dd>Drop your creation into the world (the window fades while you drag) · ▁ or double-click the title: small card</dd>
         </dl>
         <h4>Driving — <kbd>F</kbd> next to it</h4>
         <dl class="keys">
           <dt><kbd>W</kbd> / <kbd>S</kbd></dt><dd>Gas / reverse</dd>
           <dt><kbd>A</kbd> / <kbd>D</kbd></dt><dd>Steer</dd>
-          <dt><kbd>1</kbd>…<kbd>4</kbd></dt><dd>Your rules (e.g. turbo, horn, lights, fire)</dd>
+          <dt><kbd>1</kbd>…<kbd>8</kbd></dt><dd>Your rules (e.g. turbo, horn, magnet, drop a bomb, fire)</dd>
           <dt><kbd>F</kbd></dt><dd>Get out / stop remote control</dd>
         </dl>
         <h4>Planes</h4>
         <dl class="keys">
-          <dt><kbd>Mouse</kbd></dt><dd>Aim: the plane flies where the crosshair points</dd>
+          <dt><kbd>Mouse</kbd></dt><dd>Aim — the autopilot banks and pulls toward the crosshair</dd>
           <dt><kbd>W</kbd> / <kbd>S</kbd></dt><dd>Throttle up / down (it stays where you leave it)</dd>
-          <dt><kbd>A</kbd> / <kbd>D</kbd></dt><dd>Turn</dd>
-          <dt><kbd>Space</kbd> / <kbd>C</kbd></dt><dd>Nose up / down</dd>
-          <dt>Take off</dt><dd>Full throttle on the runway — it lifts off by itself. Too slow in the air and it stalls.</dd>
+          <dt><kbd>A</kbd> / <kbd>D</kbd></dt><dd>Roll (on the ground: steer the nose wheel)</dd>
+          <dt><kbd>Space</kbd> / <kbd>C</kbd></dt><dd>Pitch up / down</dd>
+          <dt>How it flies</dt><dd>Wings lift only with speed: full throttle on the runway and it rotates and lifts off. To turn, bank. Pull too hard or fly too slowly and it stalls — the nose drops until it has speed again.</dd>
         </dl>
         <h4>Helicopters</h4>
         <dl class="keys">
-          <dt><kbd>W</kbd> / <kbd>S</kbd> · <kbd>A</kbd> / <kbd>D</kbd></dt><dd>Gas / back · turn</dd>
-          <dt><kbd>Space</kbd> / <kbd>C</kbd></dt><dd>Up / down</dd>
+          <dt><kbd>Space</kbd> / <kbd>C</kbd></dt><dd>Collective: climb / descend (let go to hover)</dd>
+          <dt><kbd>W</kbd> / <kbd>S</kbd></dt><dd>Tilt forward / back — it speeds up and slows down gradually</dd>
+          <dt><kbd>A</kbd> / <kbd>D</kbd></dt><dd>Turn (tail rotor) · while flying forward it also turns toward the mouse</dd>
         </dl>
+        <h4>Damage</h4>
+        <p class="hnote">Vehicles and drones break apart into their blocks when they take too much damage — explosions, rockets, blaster shots and hard crashes. The pieces can be grabbed with the magnet and disappear after 2 minutes.</p>
         <h4>Rockets &amp; bombs</h4>
         <dl class="keys">
           <dt><kbd>F</kbd></dt><dd>Launch the rocket · light the bomb's fuse (3 s)</dd>
@@ -275,6 +283,6 @@
   </div>
 </div>
 <script src="js/peer.min.js"></script>
-<script src="js/q.min.js?v=42"></script>
+<script src="js/q.min.js?v=43"></script>
 </body>
 </html>
