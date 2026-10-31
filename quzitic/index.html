@@ -8,7 +8,7 @@
 <title>QUZITIC</title>
 <meta name="google-adsense-account" content="ca-pub-1146260713123846">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1146260713123846" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="css/s.css?v=43">
+<link rel="stylesheet" href="css/s.css?v=44">
 </head>
 <body>
 <div id="stage">
@@ -102,6 +102,7 @@
         <label class="chk"><input type="checkbox" id="optMusic" checked> Music on (M)</label>
         <label>Music <input type="range" id="volMusic" min="0" max="1" step="0.05" value="0.6"></label>
         <label>Effects <input type="range" id="volSfx" min="0" max="1" step="0.05" value="0.8"></label>
+        <label class="chk"><input type="checkbox" id="optVoiceXp" checked> Windows XP voice (crunchy retro voice chat)</label>
       </fieldset>
       <fieldset>
         <legend>Display</legend>
@@ -126,6 +127,11 @@
       <div class="pauseroom hidden" id="pauseRoom">
         <span>Room code</span><b id="pauseCode"></b>
         <button class="xpbtn" id="btnCopyRoom">Copy invite link</button>
+      </div>
+      <div class="pausevc hidden" id="pauseVc">
+        <span class="vcico"></span><span id="vcText">Voice chat</span>
+        <button class="xpbtn" id="btnVoice">Turn off</button>
+        <button class="xpbtn" id="btnMute">Mute mic (B)</button>
       </div>
     </div>
   </div>
@@ -156,6 +162,7 @@
           <dt><kbd>Tab</kbd></dt><dd>Lock / free the mouse: press once to free it (taskbar, windows), again to lock it for looking around · also closes an open window</dd>
           <dt><kbd>H</kbd></dt><dd>This help</dd>
           <dt><kbd>M</kbd></dt><dd>Music on/off</dd>
+          <dt><kbd>B</kbd></dt><dd>Mute / unmute your mic (proximity voice chat: the closer a player, the louder)</dd>
           <dt><kbd>Esc</kbd></dt><dd>Pause menu (save, load, settings)</dd>
           <dt><kbd>3</kbd><kbd>1</kbd><kbd>2</kbd></dt><dd>??? (try it)</dd>
         </dl>
@@ -260,6 +267,7 @@
       <fieldset>
         <legend>Host a game</legend>
         <p class="small">Your computer becomes the server. You get a room code to send to your friends. Keep this tab open while you play.</p>
+        <label class="chk vcchk"><input type="checkbox" id="mpVoice" checked> <span class="vcico"></span> Proximity voice chat — nearby players hear each other (you can turn it off later in the Esc menu)</label>
         <div class="row btnrow"><button class="xpbtn big" id="btnHost">Host game</button></div>
       </fieldset>
       <fieldset>
@@ -283,6 +291,6 @@
   </div>
 </div>
 <script src="js/peer.min.js"></script>
-<script src="js/q.min.js?v=43"></script>
+<script src="js/q.min.js?v=44"></script>
 </body>
 </html>
