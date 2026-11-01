@@ -6,9 +6,12 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>QUZITIC</title>
+<meta http-equiv="Content-Security-Policy" content="object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<script>if (window.top !== window.self) { try { window.top.location.replace(window.self.location.href); } catch (e) { document.documentElement.style.display = 'none'; } }</script>
 <meta name="google-adsense-account" content="ca-pub-1146260713123846">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1146260713123846" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="css/s.css?v=48">
+<link rel="stylesheet" href="css/s.css?v=49">
 </head>
 <body>
 <div id="stage">
@@ -60,9 +63,9 @@
     <div id="tvbar" class="xpwin hidden">
       <div class="tb"><span class="tbicon"></span><span class="title">TV — Web Browser</span><span class="btns"><i></i><i></i><i class="x" id="tvClose"></i></span></div>
       <div class="body">
-        <div class="tvrow"><span>Address</span><input id="tvUrl" type="text" placeholder="Paste a YouTube link or a website…" spellcheck="false"><button class="xpbtn" id="tvGo">Go</button><button class="xpbtn" id="tvPlay" title="Play / pause for everyone">⏯</button><button class="xpbtn" id="tvShare" title="Show your TV to everyone watching (for websites)">📡 Share</button><button class="xpbtn" id="tvExit">Exit (Esc)</button></div>
+        <div class="tvrow"><span>Address</span><input id="tvUrl" type="text" placeholder="YouTube, Twitch, Vimeo, Spotify… or any website" spellcheck="false"><button class="xpbtn" id="tvGo">Go</button><button class="xpbtn" id="tvPlay" title="Play / pause for everyone">⏯</button><button class="xpbtn" id="tvShare" title="Show your TV to everyone watching (for websites)">📡 Share</button><button class="xpbtn" id="tvAsk" title="Ask the person using the TV to share their screen">🙋 Ask to share</button><button class="xpbtn" id="tvBig" title="Make the TV fill your screen">⛶ Big</button><button class="xpbtn" id="tvExit">Exit (Esc)</button></div>
         <div class="tvwho" id="tvWho"></div>
-        <div class="tvnote">YouTube links play in sync for everyone. Some sites (Netflix, Google…) refuse to be shown inside other pages.</div>
+        <div class="tvnote">YouTube plays in sync for everyone. Twitch, Kick, Vimeo, Dailymotion, Spotify, SoundCloud and TikTok links work too. Some sites (Netflix, Google…) refuse to be shown inside other pages. Adult and risky sites are blocked.</div>
       </div>
     </div>
     <div id="cardlabels"></div>
@@ -286,6 +289,6 @@
   </div>
 </div>
 <script src="js/peer.min.js"></script>
-<script src="js/q.min.js?v=48"></script>
+<script src="js/q.min.js?v=49"></script>
 </body>
 </html>

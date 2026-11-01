@@ -4,6 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Gizlilik Politikası · Quziy</title>
+<meta http-equiv="Content-Security-Policy" content="object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<script>if (window.top !== window.self) { try { window.top.location.replace(window.self.location.href); } catch (e) { document.documentElement.style.display = 'none'; } }</script>
 <meta name="google-adsense-account" content="ca-pub-1146260713123846">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1146260713123846" crossorigin="anonymous"></script>
 <meta name="description" content="Quziy gizlilik politikası: çerezler, reklamlar ve çok oyunculu bağlantı.">
@@ -66,6 +69,7 @@
 
   <h2>Çok oyunculu oyun</h2>
   <p>Quzitic'te arkadaşlarınızla oynarken oyuncular birbirine doğrudan bağlanır (WebRTC). Yazdığınız oyuncu adı ve oyun içi hareketler yalnızca aynı odadaki oyunculara gider. Oyuncuların birbirini bulması için ücretsiz PeerJS eşleştirme sunucusu kullanılır; bu sunucu ve doğrudan bağlantı, bağlantıyı kurmak için IP adresinizi görür. Oyun verisi bu sunucuda saklanmaz.</p>
+  <p>Oyun içindeki televizyona bir adres yazıldığında, yetişkin ve zararlı siteleri engellemek için yalnızca sitenin alan adı (ör. <i>youtube.com</i>) Cloudflare'in aile güvenliği DNS hizmetine sorulur. Sesli sohbet ve ekran paylaşımı açılırsa ses ve görüntü yalnızca aynı odadaki oyunculara doğrudan gider; hiçbir yerde kaydedilmez.</p>
 
   <h2>Barındırma ve yazı tipleri</h2>
   <p>Site GitHub Pages üzerinde barındırılır. GitHub, güvenlik amacıyla ziyaretçilerin IP adresini kaydedebilir. Sayfalardaki yazı tipi Google Fonts'tan yüklenir; bu sırada IP adresiniz Google'a iletilir.</p>
